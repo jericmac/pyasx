@@ -14,7 +14,7 @@ setuptools.setup(
     packages=['pyasx'],
     install_requires=[
         'requests',
-        'yaml',
+        'pyyaml',
     ],
     zip_safe=False
 )

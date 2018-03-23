@@ -13,7 +13,6 @@ test_modules = [
     pyasx.test.data.securities
 ]
 
-
 # build the test suite automatically based on the configured test_modules above
 
 loader = unittest.TestLoader()
