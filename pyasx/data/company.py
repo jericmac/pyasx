@@ -7,7 +7,6 @@ import csv
 import requests
 import tempfile
 import pyasx.config
-import pprint
 
 
 def get_listed_companies():
@@ -16,7 +15,7 @@ def get_listed_companies():
     anything other than companies, e.i. no EFT/ETPs, options, warrants etc.
     """
 
-    all_listed = []
+    all_listed_companies = []
 
     # get CSV file of ASX codes, as a stream
     response = requests.get(pyasx.config.get('asx_index_csv'), stream=True)
@@ -42,13 +41,13 @@ def get_listed_companies():
 
             name, ticker, gics = row
 
-            all_listed.append({
+            all_listed_companies.append({
                 'name': name,
                 'ticker': ticker,
                 'gics': gics
             })
 
-    return all_listed
+    return all_listed_companies
 
 
-#def_company_info()
+#def get_company_info()
