@@ -2,6 +2,7 @@
 Unit tests for the pyasx.data.companies module
 """
 
+
 import unittest
 import unittest.mock
 import pyasx.data.companies

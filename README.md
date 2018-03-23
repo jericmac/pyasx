@@ -4,6 +4,9 @@
 Python library to pull ASX stock information via the undocumented API used on
 [www.ASX.com.au](https://www.asx.com.au).
 
+_NOTE: This library uses a bunch of undocumented APIs from the ASX.com.au
+website and thus could break silently :/_
+
 ## Example
 
 TODO

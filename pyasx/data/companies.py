@@ -28,7 +28,7 @@ def get_listed_companies():
     all_listed_companies = []
 
     # GET CSV file of ASX codes, as a stream
-    response = requests.get(pyasx.config.get('asx_index_csv'), stream=True)
+    response = requests.get(pyasx.config.get('asx_companies_csv'), stream=True)
     response.raise_for_status()  # throw exception for bad status codes
 
     # parse the CSV result, piping it to a temp file to make the process more memory efficient
