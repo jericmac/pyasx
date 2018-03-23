@@ -1,14 +1,20 @@
 
-from setuptools import setup
 
-setup(
+import setuptools
+
+
+setuptools.setup(
     name='pyasx',
     version='0.0.1',
-    description='Python interface to pull ASX data directory from asx.com.au',
+    description='Python interface to pull ASX data directly from asx.com.au',
     url='http://github.com/zacscott/pyasx',
     author='Zac Scott',
     author_email='zac@zacscott.net',
     license='MIT',
     packages=['pyasx'],
+    install_requires=[
+        'requests',
+        'yaml',
+    ],
     zip_safe=False
 )

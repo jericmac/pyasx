@@ -1,4 +1,4 @@
 
 # pyasx
 
-Not ready for public consuption yet :P
+Not ready for public consumption yet :P

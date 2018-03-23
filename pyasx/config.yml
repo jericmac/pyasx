@@ -1,0 +1,20 @@
+---
+
+# ASX API endpoints
+endpoints:
+
+    # Endpoint providing CSV of listed companies and their tickers
+    asx_index_csv: https://www.asx.com.au/asx/research/ASXListedCompanies.csv
+
+    # Endpoint to pull individual companies data
+    asx_company_json: https://www.asx.com.au/asx/1/company/%s # %s = ticker
+
+    # Endpoint to pull individual securities data
+    asx_single_json: https://www.asx.com.au/asx/1/share/%s # %s = ticker
+      # OLD; http://data.asx.com.au/data/1/share/%s
+
+    # Endpoint to pull annoucements
+    asx_announcements_json: https://www.asx.com.au/asx/1/company/%s/announcements?count=20&market_sensitive=true
+
+    # Endpoint for pulling historical ASX stock prices
+    floatau_historical_csv: http://float.com.au/download/%s.csv?format=stockeasy  # %s = ticker
