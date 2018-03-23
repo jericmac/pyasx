@@ -80,4 +80,6 @@ class CompaniesTest(unittest.TestCase):
     def testGetCompanyInfo(self):
 
         companies = pyasx.data.companies.get_company_info('CBA')
-        print(companies)
+
+        annoucements = pyasx.data.companies.get_company_annoucements('CBA')
+        print(annoucements)

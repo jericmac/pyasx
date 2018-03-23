@@ -159,4 +159,49 @@ def get_company_info(ticker):
     return company_info
 
 
-# def get_company_annoucements()
+# normalise the annoucements data pulled via get_company_annoucements()
+def _normalise_annoucements(raw_annoucements):
+
+    annoucements = []
+
+    if 'data' in raw_annoucements:
+
+        for raw_annoucement in raw_annoucements['data']:
+
+            annoucement = {}
+            annoucement['url'] = raw_annoucement['url'] if 'url' in raw_annoucement else ''
+            annoucement['title'] = raw_annoucement['header'] if 'header' in raw_annoucement else ''
+            annoucement['document_date'] = raw_annoucement['document_date'] if 'document_date' in raw_annoucement else ''
+            annoucement['release_date'] = raw_annoucement['document_release_date'] if 'document_release_date' in raw_annoucement else ''
+            annoucement['num_pages'] = raw_annoucement['number_of_pages'] if 'number_of_pages' in raw_annoucement else ''
+            annoucement['size'] = raw_annoucement['size'] if 'size' in raw_annoucement else ''
+
+            annoucements.append(annoucement)
+
+    return annoucements
+
+
+def get_company_annoucements(ticker):
+    """
+    Pull the latest company annoucements for the company with the given ticker
+    symbol. This will only work for companies, it won't work for other securities.
+
+    NOTE This currently only pulls the 20 latest _market sensitive_ annoucements.
+    :param ticker: The ticker symbol of the company to pull annoucements for.
+    """
+
+    # build the endpoint to pull announcements info
+    endpoint_pattern = pyasx.config.get('asx_announcements_json')
+    endpoint = endpoint_pattern % ticker.upper()
+
+    # GET the company annoucements
+    response = requests.get(endpoint)
+    response.raise_for_status()  # throw exception for bad status codes
+
+    # parse response & normalise
+
+    raw_annoucements = response.json()
+
+    annoucements = _normalise_annoucements(raw_annoucements)
+
+    return annoucements

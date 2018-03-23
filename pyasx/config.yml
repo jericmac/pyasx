@@ -12,6 +12,7 @@ asx_single_json: https://www.asx.com.au/asx/1/share/%s # %s = ticker
 
 # Endpoint to pull annoucements
 asx_announcements_json: https://www.asx.com.au/asx/1/company/%s/announcements?count=20&market_sensitive=true
+    # %s = ticker
 
 # Endpoint for pulling historical ASX stock prices
 floatau_historical_csv: http://float.com.au/download/%s.csv?format=stockeasy  # %s = ticker
