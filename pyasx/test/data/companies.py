@@ -1,15 +1,17 @@
-
+"""
+Unit tests for the pyasx.data.companies module
+"""
 
 import unittest
 import unittest.mock
-import pyasx.data.company
+import pyasx.data.companies
 
 
-class CompanyTest(unittest.TestCase):
+class CompaniesTest(unittest.TestCase):
 
 
     def __init__(self, *args, **kwargs):
-        super(CompanyTest, self).__init__(*args, **kwargs)
+        super(CompaniesTest, self).__init__(*args, **kwargs)
 
         self.get_listed_companies_data = []
         self.get_listed_companies_mock = []
@@ -51,7 +53,7 @@ class CompanyTest(unittest.TestCase):
             instance.iter_content.return_value = iter(self.get_listed_companies_mock)
 
             # this is the test
-            companies = pyasx.data.company.get_listed_companies()
+            companies = pyasx.data.companies.get_listed_companies()
 
             # verify data is all correct
             i = 0;
@@ -71,5 +73,11 @@ class CompanyTest(unittest.TestCase):
         Simple check of pulling live data
         """
 
-        companies = pyasx.data.company.get_listed_companies()
+        companies = pyasx.data.companies.get_listed_companies()
         self.assertTrue(len(companies) > 1000) # there are atleast a couple thousand listed companies
+
+
+    def testGetCompanyInfo(self):
+
+        companies = pyasx.data.companies.get_company_info('CBA')
+        print(companies)

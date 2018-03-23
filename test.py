@@ -2,15 +2,15 @@
 
 
 import unittest
-import pyasx.test.data.company
+import pyasx.test.data.companies
 import pyasx.test.data.historical
-import pyasx.test.data.share
+import pyasx.test.data.securities
 
 
 test_modules = [
-    pyasx.test.data.company,
+    pyasx.test.data.companies,
     pyasx.test.data.historical,
-    pyasx.test.data.share
+    pyasx.test.data.securities
 ]
 
 
