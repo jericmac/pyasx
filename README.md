@@ -4,8 +4,19 @@
 Python library to pull ASX stock information via the undocumented API used on
 [www.ASX.com.au](https://www.asx.com.au).
 
+Main features are;
+
+ - Pulling the full list of companies & securities listed on the ASX
+ - Pulling detailed company information
+ - Pulling company regulatory annoucements
+
+While PyASX provides pricing information, using
+[AlphaVantage](https://github.com/RomelTorres/alpha_vantage) is a much better
+option for up to date & historical price data.
+
 _NOTE: This library uses a bunch of undocumented APIs from the ASX.com.au
-website and thus could break silently :/_
+website and thus could go the way of Google & Yahoo finance with the API
+unceremoniously being killed._
 
 ## Example
 
