@@ -38,9 +38,10 @@ class CompanyTest(unittest.TestCase):
             self.get_listed_companies_mock.append(csv_row)
 
 
-    def testGetListedCompanies(self):
+    def testGetListedCompaniesMocked(self):
         """
         Unit test for pyasx.data.company.get_listed_companies()
+        Test pulling mock data + verify
         """
 
         with unittest.mock.patch("requests.get") as mock:
@@ -62,3 +63,13 @@ class CompanyTest(unittest.TestCase):
                 self.assertEqual(company["gics"], company_data[2])
 
                 i += 1
+
+
+    def testGetListedCompaniesSimple(self):
+        """
+        Unit test for pyasx.data.company.get_listed_companies()
+        Simple check of pulling live data
+        """
+
+        companies = pyasx.data.company.get_listed_companies()
+        self.assertTrue(len(companies) > 1000) # there are atleast a couple thousand listed companies
