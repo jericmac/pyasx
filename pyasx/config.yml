@@ -4,7 +4,8 @@
 asx_companies_csv: https://www.asx.com.au/asx/research/ASXListedCompanies.csv
 
 # Endpoint providing XLS spreadsheet of all listed securities and their tickers
-asx_securities_xls: https://www.asx.com.au/programs/ISIN.xls
+asx_securities_tsv: https://www.asx.com.au/programs/ISIN.xls
+    # NOTE the extension is xls but the file is actuall tab separated
 
 # Endpoint to pull individual companies data
 asx_company_json: https://www.asx.com.au/asx/1/company/%s # %s = ticker

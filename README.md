@@ -18,10 +18,6 @@ _NOTE: This library uses a bunch of undocumented APIs from the ASX.com.au
 website and thus could go the way of Google & Yahoo finance with the API
 unceremoniously being killed off._
 
-## Example
-
-TODO
-
 ## API
 
 ### `pyasx.data.companies.get_listed_companies()`
