@@ -2,13 +2,13 @@
 
 
 import unittest
-import pyasx.test.data.companies
-import pyasx.test.data.securities
+import pyasx.tests.data.companies
+import pyasx.tests.data.securities
 
 
 test_modules = [
-    pyasx.test.data.companies,
-    pyasx.test.data.securities
+    pyasx.tests.data.companies,
+    pyasx.tests.data.securities
 ]
 
 # build the test suite automatically based on the configured test_modules above
