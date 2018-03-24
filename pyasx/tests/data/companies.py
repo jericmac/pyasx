@@ -6,10 +6,12 @@ Unit tests for the pyasx.data.companies module
 import unittest
 import unittest.mock
 import pyasx.data.companies
-import json
 
 
 class CompaniesTest(unittest.TestCase):
+    """
+    Unit tests for pyasx.data.companies module
+    """
 
 
     def __init__(self, *args, **kwargs):
@@ -17,12 +19,15 @@ class CompaniesTest(unittest.TestCase):
 
         self.get_listed_companies_data = []
         self.get_listed_companies_mock = []
+        self.get_company_info_mock = []
+        self.get_company_announcements_mock = []
 
 
     def setUp(self):
 
         self.setUpGetListedCompanies()
         self.setUpGetCompanyInfo()
+        self.setUpGetCompanyAnnouncements()
 
 
     def setUpGetListedCompanies(self):
@@ -50,6 +55,7 @@ class CompaniesTest(unittest.TestCase):
 
     def setUpGetCompanyInfo(self):
 
+        # mock data in structure returned by the ASX API
         self.get_company_info_mock = {
             "code":                  "GEN",
             "name_full":             "GENERIC INCORPORATED",
@@ -75,6 +81,40 @@ class CompaniesTest(unittest.TestCase):
                 "hybrid-securities",
                 "options",
                 "warrants"
+            ]
+        }
+
+
+    def setUpGetCompanyAnnouncements(self):
+
+        # mock data in structure returned by the ASX API
+        self.get_company_announcements_mock = {
+            "data": [
+                {
+                    "id": "12341234",
+                    "document_date": "2018-03-15T00:00:00+1100",
+                    "document_release_date": "2018-03-14T00:00:00+1100",
+                    "url": "FULL URL",
+                    "relative_url": "RELATIVE URL",
+                    "header": "TITLE",
+                    "market_sensitive": True,
+                    "number_of_pages": 101,
+                    "size": "200.1MB",
+                    "legacy_announcement": False
+                },
+                {
+                    "id": "43214321",
+                    "document_date": "2018-03-12T00:00:00+1100",
+                    "document_release_date": "2018-03-11T00:00:00+1100",
+                    "url": "FULL URL",
+                    "relative_url": "RELATIVE URL",
+                    "header": "TITLE",
+                    "market_sensitive": True,
+                    "number_of_pages": 202,
+                    "size": "100.2MB",
+                    "legacy_announcement": True
+                },
+
             ]
         }
 
@@ -106,7 +146,7 @@ class CompaniesTest(unittest.TestCase):
                 i += 1
 
 
-    def testGetListedCompaniesSimple(self):
+    def testGetListedCompaniesLive(self):
         """
         Unit test for pyasx.data.company.get_listed_companies()
         Simple check of pulling live data
@@ -150,7 +190,7 @@ class CompaniesTest(unittest.TestCase):
             self.assertTrue("primary_share"         in company and len(company["primary_share"]))
 
 
-    def testGetCompanyInfoSimple(self):
+    def testGetCompanyInfoLive(self):
         """
         Unit test for pyasx.data.company.get_listed_companies()
         Simple check of pulling live data
@@ -159,3 +199,43 @@ class CompaniesTest(unittest.TestCase):
         company = pyasx.data.companies.get_company_info('CBA')
         self.assertTrue("ticker" in company)
         self.assertTrue(len(company))
+
+
+    def testGetCompanyAnnouncementsMocked(self):
+        """
+        Unit test for pyasx.data.company.get_company_announcements()
+        Test pulling mock data + verify
+        """
+
+        with unittest.mock.patch("requests.get") as mock:
+
+            # set up mock iterator for response.json()
+            instance = mock.return_value
+            instance.json.return_value = self.get_company_announcements_mock
+
+            # this is the test
+            announcements = pyasx.data.companies.get_company_announcements('CBA')
+
+            # verify data is all correct against the mock data
+            i = 0;
+            for announcement in announcements:
+                announcement_data = self.get_company_announcements_mock['data'][i]
+
+                self.assertEqual(announcement["title"], announcement_data["header"])
+                self.assertEqual(announcement["url"], announcement_data["url"])
+                self.assertEqual(announcement["document_date"], announcement_data["document_date"])
+                self.assertEqual(announcement["release_date"], announcement_data["document_release_date"])
+                self.assertEqual(announcement["num_pages"], announcement_data["number_of_pages"])
+                self.assertEqual(announcement["size"], announcement_data["size"])
+
+                i += 1
+
+
+    def testGetCompanyAnnouncementsLive(self):
+        """
+        Unit test for pyasx.data.company.get_company_annoucements()
+        Simple check of pulling live data
+        """
+
+        announcements = pyasx.data.companies.get_company_announcements('CBA')
+        self.assertTrue(len(announcements))

@@ -151,9 +151,9 @@ warrants, indices etc. For that please use
 
     }
 
-### `pyasx.data.companies.get_company_annoucements(ticker)`
+### `pyasx.data.companies.get_company_announcements(ticker)`
 
-Pull the latest company annoucements for the company with the given ticker
+Pull the latest company announcements for the company with the given ticker
 symbol. This will only work for companies, it won't work for other securities.
 
 _NOTE_ This currently only pulls the 20 latest _market sensitive_ annoucements.
@@ -161,7 +161,7 @@ _NOTE_ This currently only pulls the 20 latest _market sensitive_ annoucements.
 **Example**
 
     >>> import pyasx.data.companies
-    >>> results = pyasx.data.companies.get_company_annoucements('CBA')
+    >>> results = pyasx.data.companies.get_company_announcements('CBA')
     >>> json.dumps(results, indent=4)
     [
         {

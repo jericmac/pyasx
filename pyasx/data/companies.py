@@ -182,12 +182,12 @@ def _normalise_annoucements(raw_annoucements):
     return annoucements
 
 
-def get_company_annoucements(ticker):
+def get_company_announcements(ticker):
     """
-    Pull the latest company annoucements for the company with the given ticker
+    Pull the latest company announcements for the company with the given ticker
     symbol. This will only work for companies, it won't work for other securities.
 
-    _NOTE_ This currently only pulls the 20 latest _market sensitive_ annoucements.
+    _NOTE_ This currently only pulls the 20 latest _market sensitive_ announcements.
     :param ticker: The ticker symbol of the company to pull annoucements for.
     """
 
@@ -201,8 +201,8 @@ def get_company_annoucements(ticker):
 
     # parse response & normalise
 
-    raw_annoucements = response.json()
+    raw_announcements = response.json()
 
-    annoucements = _normalise_annoucements(raw_annoucements)
+    announcements = _normalise_annoucements(raw_announcements)
 
-    return annoucements
+    return announcements
