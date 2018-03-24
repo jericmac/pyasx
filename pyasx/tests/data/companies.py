@@ -6,6 +6,7 @@ Unit tests for the pyasx.data.companies module
 import unittest
 import unittest.mock
 import pyasx.data.companies
+import json
 
 
 class CompaniesTest(unittest.TestCase):
@@ -19,6 +20,12 @@ class CompaniesTest(unittest.TestCase):
 
 
     def setUp(self):
+
+        self.setUpGetListedCompanies()
+        self.setUpGetCompanyInfo()
+
+
+    def setUpGetListedCompanies(self):
 
         self.get_listed_companies_data = [
             # just the first ones from the file to test with
@@ -39,6 +46,37 @@ class CompaniesTest(unittest.TestCase):
             csv_row += "\n"
 
             self.get_listed_companies_mock.append(csv_row)
+
+
+    def setUpGetCompanyInfo(self):
+
+        self.get_company_info_mock = {
+            "code":                  "GEN",
+            "name_full":             "GENERIC INCORPORATED",
+            "name_short":            "GEN INC",
+            "name_abbrev":           "GENERIC INC",
+            "principal_activities":  "ACTIVITIES",
+            "industry_group_name":   "Banks",
+            "sector_name":           "Financials",
+            "listing_date":          "2000-01-01T00:00:00+1000",
+            "delisting_date":        None,
+            "web_address":           "WEBSITE",
+            "mailing_address":       "ADDRESS",
+            "phone_number":          "4321 4321",
+            "fax_number":            "1234 1234",
+            "registry_name":         "REG NAME",
+            "registry_address":      "REG ADDRESS",
+            "registry_phone_number": "1800 123 456",
+            "foreign_exempt":        False,
+            "primary_share_code":    "GEN",  # so it pulls valid pricing info
+            "recent_announcement":   False,
+            "products":[
+                "shares",
+                "hybrid-securities",
+                "options",
+                "warrants"
+            ]
+        }
 
 
     def testGetListedCompaniesMocked(self):
@@ -78,11 +116,46 @@ class CompaniesTest(unittest.TestCase):
         self.assertTrue(len(companies) > 1000) # there are atleast a couple thousand listed companies
 
 
-    def testGetCompanyInfo(self):
+    def testGetCompanyInfoMocked(self):
+        """
+        Unit test for pyasx.data.company.get_company_info()
+        Test pulling mock data + verify
+        """
 
-        companies = pyasx.data.companies.get_company_info('CBA')
+        with unittest.mock.patch("requests.get") as mock:
 
-        annoucements = pyasx.data.companies.get_company_annoucements('CBA')
+            # set up mock iterator for response.json()
+            instance = mock.return_value
+            instance.json.return_value = self.get_company_info_mock
 
-        # print(pyasx.data.securities.get_listed_securities())
-        # print(annoucements)
+            company = pyasx.data.companies.get_company_info('CBA')
+
+            self.assertTrue("ticker"                in company and company["ticker"] == "GEN")
+            self.assertTrue("name"                  in company and company["name"] == "GENERIC INCORPORATED")
+            self.assertTrue("name_short"            in company and company["name_short"] == "GENERIC INC")
+            self.assertTrue("principal_activities"  in company and company["principal_activities"] == "ACTIVITIES")
+            self.assertTrue("gics"                  in company and company["gics"] == "Banks")
+            self.assertTrue("sector"                in company and company["sector"] == "Financials")
+            self.assertTrue("listing_date"          in company and company["listing_date"] == "2000-01-01T00:00:00+1000")
+            self.assertTrue("delisting_date"        in company and company["delisting_date"] is None)
+            self.assertTrue("website"               in company and company["website"] == "WEBSITE")
+            self.assertTrue("mailing_address"       in company and company["mailing_address"] == "ADDRESS")
+            self.assertTrue("phone_number"          in company and company["phone_number"] == "4321 4321")
+            self.assertTrue("fax_number"            in company and company["fax_number"] == "1234 1234")
+            self.assertTrue("registry_name"         in company and company["registry_name"] == "REG NAME")
+            self.assertTrue("registry_phone_number" in company and company["registry_phone_number"] == "1800 123 456")
+            self.assertTrue("foreign_exempt"        in company and company["foreign_exempt"] == False)
+            self.assertTrue("products"              in company and len(company["products"]))
+            self.assertTrue("last_dividend"         in company and len(company["last_dividend"]))
+            self.assertTrue("primary_share"         in company and len(company["primary_share"]))
+
+
+    def testGetCompanyInfoSimple(self):
+        """
+        Unit test for pyasx.data.company.get_listed_companies()
+        Simple check of pulling live data
+        """
+
+        company = pyasx.data.companies.get_company_info('CBA')
+        self.assertTrue("ticker" in company)
+        self.assertTrue(len(company))

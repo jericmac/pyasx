@@ -24,7 +24,7 @@ unceremoniously being killed off._
 
 Install via pip:
 
-    $ pip intsall
+    $ pip install pyasx
 
 ## API
 
