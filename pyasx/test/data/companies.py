@@ -83,4 +83,4 @@ class CompaniesTest(unittest.TestCase):
         companies = pyasx.data.companies.get_company_info('CBA')
 
         annoucements = pyasx.data.companies.get_company_annoucements('CBA')
-        print(annoucements)
+        # print(annoucements)

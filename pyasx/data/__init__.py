@@ -1,1 +1,1 @@
-"""Python 2.7 compat"""
+"""Python 2 compat"""

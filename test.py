@@ -3,13 +3,11 @@
 
 import unittest
 import pyasx.test.data.companies
-import pyasx.test.data.historical
 import pyasx.test.data.securities
 
 
 test_modules = [
     pyasx.test.data.companies,
-    pyasx.test.data.historical,
     pyasx.test.data.securities
 ]
 

@@ -230,3 +230,9 @@ etc.
         "is_suspended": false,
         "indices": []
     }
+
+## Unit tests
+
+The unit tests can be run by executing the test.py file, like so;
+
+    python3 test.py
