@@ -77,8 +77,9 @@ def _normalise_security_info(raw):
 
 def get_security_info(ticker):
     """
-    Pull information on the security with the given ticker symbol. This can be
-    for any type of listed security, such as company stock, bonds, ETFs etc.
+    Pull pricing information on the security with the given ticker symbol. This
+    can be for any type of listed security, such as company stock, bonds, ETFs
+    etc.
     :param ticker: The ticker symbol of the security to lookup.
     """
 

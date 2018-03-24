@@ -13,7 +13,7 @@ import pyasx.data.securities
 def get_listed_companies():
     """
     Pulls a list of all companies listed on the ASX.  This will not include
-    anything other than companies, e.i. no EFT/ETPs, options, warrants etc.
+    anything other than companies, i.e. no EFT/ETPs, options, warrants etc.
 
     This returns an array in the following format;
     [
@@ -122,11 +122,12 @@ def _normalise_company_info(raw):
 def get_company_info(ticker):
     """
     Pull information on the company with the given ticker symbol. This also
-    includes all of the share information returned by
-    `pyasx.data.share.get_share_info()`.
+    includes all of the pricing information returned by
+    `pyasx.data.securities.get_security_info()`.
 
     This will only work for a company, it will not return information on, ETFs,
-    warrants, indices etc. For that please use `pyasx.data.share.get_share_info()`
+    warrants, indices etc. For that please use
+    `pyasx.data.securities.get_security_info()`
 
     :param ticker: The ticker symbol of the company to lookup.
     """
@@ -186,7 +187,7 @@ def get_company_annoucements(ticker):
     Pull the latest company annoucements for the company with the given ticker
     symbol. This will only work for companies, it won't work for other securities.
 
-    NOTE This currently only pulls the 20 latest _market sensitive_ annoucements.
+    _NOTE_ This currently only pulls the 20 latest _market sensitive_ annoucements.
     :param ticker: The ticker symbol of the company to pull annoucements for.
     """
 
