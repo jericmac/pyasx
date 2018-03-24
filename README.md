@@ -1,6 +1,8 @@
 
 # PyASX
 
+[![Build Status](https://travis-ci.org/zacscott/pyasx.svg?branch=master)](https://travis-ci.org/zacscott/pyasx)
+
 Python library to pull ASX stock information via the undocumented API used on
 [www.ASX.com.au](https://www.asx.com.au).
 
@@ -20,7 +22,9 @@ unceremoniously being killed off._
 
 ## Installation
 
-TODO
+Install via pip:
+
+    $ pip intsall
 
 ## API
 
