@@ -181,7 +181,37 @@ Pull full list of ASX listed securities.
 
 **Example**
 
-    >>> TODO
+    >>> import pyasx.data.securities
+    >>> results = pyasx.data.securities.get_listed_securities()
+    >>> json.dumps(results, indent=4)
+    [
+        {
+            "isin": "AU000000IJH2",
+            "ticker": "IJH",
+            "name": "ISHARES MID-CAP ETF",
+            "type": "CHESS DEPOSITARY INTERESTS 1:1 ISHS&P400"
+        },
+        {
+            "isin": "AU000000IJH2",
+            "ticker": "MOQ",
+            "name": "MOQ LIMITED",
+            "type": ORDINARY FULLY PAID"
+        },
+        {
+            "isin": "AU000000IJH2",
+            "ticker": "MOQAI",
+            "name": "MOQ LIMITED",
+            "type": "OPTION EXPIRING VARIOUS DATES EX VARIOUS PRICES"
+        },
+        ...
+        {
+            "isin": "AU0000ZYBAI9",
+            "ticker": "ZYBAI",
+            "name": "ZYBER HOLDINGS LTD",
+            "type": "OPTION EXPIRING VAR DATES RESTRICTED VAR PRICES"
+        }
+    ]
+
 
 ### `pyasx.data.securities.get_security_info()`
 
@@ -191,7 +221,7 @@ etc.
 
 **Example**
 
-    >>> import pyasx.data.companies
+    >>> import pyasx.data.securities
     >>> results = pyasx.data.securities.get_security_info('CBAPC')
     >>> json.dumps(results, indent=4)
     {
