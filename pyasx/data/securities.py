@@ -10,6 +10,19 @@ import pyasx.config
 
 
 def get_listed_securities():
+    """
+    Pulls a list of all securities listed on the ASX.
+
+    This returns an array in the following format;
+    [
+        {
+            'ticker': 'IJH',
+            'name': 'ISHARES MID-CAP ETF',
+            'type': 'CHESS DEPOSITARY INTERESTS 1:1 ISHS&P400',
+            'isin': 'AU000000IJH2'
+        }
+    ]
+    """
 
     all_listed_securities = []
 

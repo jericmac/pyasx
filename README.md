@@ -185,7 +185,7 @@ _NOTE_ This currently only pulls the 20 latest _market sensitive_ annoucements.
 
 ### get_listed_securities()
 
-Pull full list of ASX listed securities.
+Pulls a list of all securities listed on the ASX.
 
 **Example**
 
