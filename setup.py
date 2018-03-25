@@ -6,7 +6,7 @@ import pypandoc
 
 setuptools.setup(
     name='pyasx',
-    version='1.0.0rc4',
+    version='1.0.0',
     description='Python library to pull data from ASX.com.au',
     long_description=pypandoc.convert('README.md', 'rst'),
     long_description_content_type='text/markdown',

@@ -269,4 +269,4 @@ etc.
 
 The unit tests can be run by executing the test.py file, like so;
 
-    python3 test.py
+    python3 tests.py
