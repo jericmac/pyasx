@@ -75,3 +75,13 @@ class SecuritiesTest(unittest.TestCase):
                 self.assertEqual(security["isin"], security_data[3])
 
                 i += 1
+
+
+    def testGetListedSecuritiesLive(self):
+        """
+        Unit test for pyasx.data.company.get_listed_securities()
+        Simple check of pulling live data
+        """
+
+        securities = pyasx.data.companies.get_listed_securities()
+        self.assertTrue(len(securities) > 1000) # there are at least a few thousand listed securities
