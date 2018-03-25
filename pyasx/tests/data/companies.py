@@ -1,6 +1,3 @@
-"""
-Unit tests for the pyasx.data.companies module
-"""
 
 
 import unittest
@@ -18,7 +15,7 @@ class CompaniesTest(unittest.TestCase):
         super(CompaniesTest, self).__init__(*args, **kwargs)
 
         self.get_listed_companies_data = []
-        self.get_listed_companies_mock = []
+        self.get_listed_companies_mock = ""
         self.get_company_info_mock = []
         self.get_company_announcements_mock = []
 
@@ -43,14 +40,14 @@ class CompaniesTest(unittest.TestCase):
         # build the mock CSV data based on self.get_listed_companies_data
 
         for i in range(0, 3):  # header
-            self.get_listed_companies_mock.append("\n")
+            self.get_listed_companies_mock+= "\n"
 
         for row in self.get_listed_companies_data:
 
             csv_row = ",".join(row)
             csv_row += "\n"
 
-            self.get_listed_companies_mock.append(csv_row)
+            self.get_listed_companies_mock += csv_row
 
 
     def setUpGetCompanyInfo(self):
@@ -129,7 +126,7 @@ class CompaniesTest(unittest.TestCase):
 
             # set up mock iterator for response.iter_content()
             instance = mock.return_value
-            instance.iter_content.return_value = iter(self.get_listed_companies_mock)
+            instance.iter_content.return_value = iter([self.get_listed_companies_mock])
 
             # this is the test
             companies = pyasx.data.companies.get_listed_companies()
