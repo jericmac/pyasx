@@ -1,14 +1,25 @@
 
-from setuptools import setup
 
-setup(
+import setuptools
+import pypandoc
+
+
+setuptools.setup(
     name='pyasx',
-    version='0.0.1',
-    description='Python interface to pull ASX data directory from asx.com.au',
+    version='1.0.0',
+    description='Python library to pull data from ASX.com.au',
+    long_description=pypandoc.convert('README.md', 'rst'),
+    long_description_content_type='text/markdown',
     url='http://github.com/zacscott/pyasx',
     author='Zac Scott',
     author_email='zac@zacscott.net',
     license='MIT',
-    packages=['pyasx'],
-    zip_safe=False
+    packages=setuptools.find_packages(
+        exclude=['tests',]
+    ),
+    python_requires='>=2.6',
+    install_requires=[
+        'requests',
+        'pyyaml'
+    ]
 )
