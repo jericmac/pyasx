@@ -28,7 +28,7 @@ Install via pip:
 
 ## API
 
-### `pyasx.data.companies.get_listed_companies()`
+### get_listed_companies()
 
 Pulls a list of all companies listed on the ASX.  This will not include
 anything other than companies, i.e. no EFT/ETPs, options, warrants etc.
@@ -62,7 +62,7 @@ anything other than companies, i.e. no EFT/ETPs, options, warrants etc.
         }
     ]
 
-### `pyasx.data.companies.get_company_info(ticker)`
+### get_company_info(ticker)
 
 Pull information on the company with the given ticker symbol. This also
 includes all of the pricing information returned by
@@ -151,7 +151,7 @@ warrants, indices etc. For that please use
 
     }
 
-### `pyasx.data.companies.get_company_announcements(ticker)`
+### get_company_announcements(ticker)
 
 Pull the latest company announcements for the company with the given ticker
 symbol. This will only work for companies, it won't work for other securities.
@@ -183,7 +183,7 @@ _NOTE_ This currently only pulls the 20 latest _market sensitive_ annoucements.
         ...
     ]
 
-### `pyasx.data.securities.get_listed_securities()`
+### get_listed_securities()
 
 Pull full list of ASX listed securities.
 
@@ -221,7 +221,7 @@ Pull full list of ASX listed securities.
     ]
 
 
-### `pyasx.data.securities.get_security_info()`
+### get_security_info(ticker)
 
 Pull pricing information on the security with the given ticker symbol. This
 can be for any type of listed security, such as company stock, bonds, ETFs
