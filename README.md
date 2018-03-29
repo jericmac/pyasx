@@ -50,23 +50,23 @@ anything other than companies, i.e. no EFT/ETPs, options, warrants etc.
         {
             "ticker": "MOQ",
             "name": "MOQ LIMITED"
-            "gics": "Software & Services",
+            "gics_industry": "Software & Services",
         },
         {
             "ticker": "1PG",
             "name": "1-PAGE LIMITED"
-            "gics": "Software & Services",
+            "gics_industry": "Software & Services",
         },
         {
             "ticker": "ONT",
             "name": "1300 SMILES LIMITED"
-            "gics": "Health Care Equipment & Services",
+            "gics_industry": "Health Care Equipment & Services",
         },
         ...
         {
             "ticker": "ZYB",
             "name": "ZYBER HOLDINGS LTD"
-            "gics": "Software & Services",
+            "gics_industry": "Software & Services",
         }
     ]
 
@@ -89,8 +89,8 @@ warrants, indices etc. For that please use
         "ticker": "CBA",
         "name": "COMMONWEALTH BANK OF AUSTRALIA.",
         "name_short": "COMMONWEALTH BANK.",
-        "sector": "Financials",
-        "gics": "Banks",
+        "gics_sector": "Financials",
+        "gics_industry": "Banks",
         "principal_activities": "Banking, financial and related services.",
         "website": "http://www.commbank.com.au/",
         "mailing_address": "Ground Floor, Tower 1, 201 Sussex Street, SYDNEY, NSW, AUSTRALIA, 2000",

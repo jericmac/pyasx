@@ -138,7 +138,7 @@ class CompaniesTest(unittest.TestCase):
 
                 self.assertEqual(company["name"], company_data[0])
                 self.assertEqual(company["ticker"], company_data[1])
-                self.assertEqual(company["gics"], company_data[2])
+                self.assertEqual(company["gics_industry"], company_data[2])
 
                 i += 1
 
@@ -171,8 +171,8 @@ class CompaniesTest(unittest.TestCase):
             self.assertTrue("name"                  in company and company["name"] == "GENERIC INCORPORATED")
             self.assertTrue("name_short"            in company and company["name_short"] == "GENERIC INC")
             self.assertTrue("principal_activities"  in company and company["principal_activities"] == "ACTIVITIES")
-            self.assertTrue("gics"                  in company and company["gics"] == "Banks")
-            self.assertTrue("sector"                in company and company["sector"] == "Financials")
+            self.assertTrue("gics_industry"         in company and company["gics_industry"] == "Banks")
+            self.assertTrue("gics_sector"           in company and company["gics_sector"] == "Financials")
             self.assertTrue("listing_date"          in company and company["listing_date"] == "2000-01-01T00:00:00+1000")
             self.assertTrue("delisting_date"        in company and company["delisting_date"] is None)
             self.assertTrue("website"               in company and company["website"] == "WEBSITE")

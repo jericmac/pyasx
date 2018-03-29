@@ -9,9 +9,10 @@ except ImportError:
     long_description = open("README.md").read()
     print("NOTE documentation not generated correctly, requires `pypandoc`")
 
+
 setuptools.setup(
     name='pyasx',
-    version='1.0.2',
+    version='1.1.0',
     description='Python library to pull data from ASX.com.au',
     long_description=long_description,
     long_description_content_type='text/markdown',

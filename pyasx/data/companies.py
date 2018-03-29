@@ -20,7 +20,7 @@ def get_listed_companies():
         {
             'ticker': 'CBA',
             'name': 'COMMONWEALTH BANK OF AUSTRALIA.',
-            'gics': 'Banks'
+            'gics_industry': 'Banks'
         }
     ]
     """
@@ -54,7 +54,7 @@ def get_listed_companies():
             all_listed_companies.append({
                 'name': name,
                 'ticker': ticker,
-                'gics': gics
+                'gics_industry': gics
             })
 
     return all_listed_companies
@@ -100,8 +100,8 @@ def _normalise_company_info(raw):
     company_info['name'] = raw['name_full'] if 'name_full' in raw else ''
     company_info['name_short'] = raw['name_abbrev'] if 'name_abbrev' in raw else ''
     company_info['principal_activities'] = raw['principal_activities'] if 'principal_activities' in raw else ''
-    company_info['gics'] = raw['industry_group_name'] if 'industry_group_name' in raw else ''
-    company_info['sector'] = raw['sector_name'] if 'sector_name' in raw else ''
+    company_info['gics_industry'] = raw['industry_group_name'] if 'industry_group_name' in raw else ''
+    company_info['gics_sector'] = raw['sector_name'] if 'sector_name' in raw else ''
     company_info['listing_date'] = raw['listing_date'] if 'listing_date' in raw else ''
     company_info['delisting_date'] = raw['delisting_date'] if 'delisting_date' in raw else ''
     company_info['website'] = raw['web_address'] if 'web_address' in raw else ''
