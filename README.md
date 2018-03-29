@@ -29,12 +29,12 @@ Install via pip:
 ## API
 
  - Company specific data
-     - (get_listed_companies())[#get_listed_companies]
-     - (get_company_info())[#get_company_info]
-     - (get_company_announcements())[#get_company_announcements]
+     - (get_listed_companies[#get_listed_companies]()
+     - (get_company_info)[#get_company_info]()
+     - (get_company_announcements)[#get_company_announcements]()
  - Securities data
-    - (get_listed_securities())[#get_listed_securities]
-    - (get_security_info())[#get_security_info]
+    - (get_listed_securities[#get_listed_securities]()
+    - (get_security_info[#get_security_info]()
 
 ### get_listed_companies()
 
