@@ -28,6 +28,14 @@ Install via pip:
 
 ## API
 
+ - Company specific data
+     - (get_listed_companies())[#get_listed_companies]
+     - (get_company_info())[#get_company_info]
+     - (get_company_announcements())[#get_company_announcements]
+ - Securities data
+    - (get_listed_securities())[#get_listed_securities]
+    - (get_security_info())[#get_security_info]
+
 ### get_listed_companies()
 
 Pulls a list of all companies listed on the ASX.  This will not include
@@ -62,7 +70,7 @@ anything other than companies, i.e. no EFT/ETPs, options, warrants etc.
         }
     ]
 
-### get_company_info(ticker)
+### get_company_info()
 
 Pull information on the company with the given ticker symbol. This also
 includes all of the pricing information returned by
@@ -151,7 +159,7 @@ warrants, indices etc. For that please use
 
     }
 
-### get_company_announcements(ticker)
+### get_company_announcements()
 
 Pull the latest company announcements for the company with the given ticker
 symbol. This will only work for companies, it won't work for other securities.
@@ -221,7 +229,7 @@ Pulls a list of all securities listed on the ASX.
     ]
 
 
-### get_security_info(ticker)
+### get_security_info()
 
 Pull pricing information on the security with the given ticker symbol. This
 can be for any type of listed security, such as company stock, bonds, ETFs
