@@ -8,7 +8,8 @@ asx_securities_tsv: https://www.asx.com.au/programs/ISIN.xls
     # NOTE the extension is xls but the file is actuall tab separated
 
 # Endpoint to pull individual companies data
-asx_company_json: https://www.asx.com.au/asx/1/company/%s # %s = ticker
+asx_company_json: https://www.asx.com.au/asx/1/company/%s?fields=primary_share,latest_annual_reports,last_dividend,primary_share.indices
+    # %s = ticker
 
 # Endpoint to pull individual securities data
 asx_single_json: https://www.asx.com.au/asx/1/share/%s # %s = ticker
