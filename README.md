@@ -278,3 +278,19 @@ etc.
 The unit tests can be run by executing the test.py file, like so;
 
     python3 tests.py
+
+
+## Changelog
+
+### 1.1.0
+    - Optimised get_company_info() to use only 1 API call
+    - Changed gics & sector fields to gics_industry and gics_sector
+    - Docs updates
+
+### 1.0.2 - Bug fixes
+    - Bug fix - config file missing in dist
+
+### 1.0.1
+    - Bug fix - pypandoc dependency failure on pypi
+
+### 1.0 - Initial version
