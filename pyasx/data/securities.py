@@ -25,6 +25,7 @@ def get_listed_securities():
             'isin': 'AU000000IJH2'
         }
     ]
+    :raises pyasx.data.LookupError:
     """
 
     all_listed_securities = []
@@ -37,7 +38,7 @@ def get_listed_securities():
 
     except requests.exceptions.HTTPError as ex:
 
-        raise pyasx.LookupError("Failed to lookup listed securities; %s" % str(ex))
+        raise pyasx.data.LookupError("Failed to lookup listed securities; %s" % str(ex))
 
     # parse the CSV result, piping it to a temp file to make the process more memory efficient
     with tempfile.NamedTemporaryFile("w+") as temp_stream:
@@ -145,6 +146,7 @@ def get_security_info(ticker):
     can be for any type of listed security, such as company stock, bonds, ETFs
     etc.
     :param ticker: The ticker symbol of the security to lookup.
+    :raises pyasx.data.LookupError:
     """
 
     assert(len(ticker) >= 3)
@@ -161,7 +163,7 @@ def get_security_info(ticker):
 
     except requests.exceptions.HTTPError as ex:
 
-        raise pyasx.LookupError(
+        raise pyasx.data.LookupError(
             "Failed to lookup security info for %s; %s" % (
                 ticker, str(ex)
             )

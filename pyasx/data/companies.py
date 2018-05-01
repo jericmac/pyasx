@@ -24,6 +24,7 @@ def get_listed_companies():
             'gics_industry': 'Banks'
         }
     ]
+    :raises pyasx.data.LookupError:
     """
 
     all_listed_companies = []
@@ -36,7 +37,7 @@ def get_listed_companies():
 
     except requests.exceptions.HTTPError as ex:
 
-        raise pyasx.LookupError("Failed to lookup listed companies; %s" % str(ex))
+        raise pyasx.data.LookupError("Failed to lookup listed companies; %s" % str(ex))
 
     # parse the CSV result, piping it to a temp file to make the process more memory efficient
     with tempfile.NamedTemporaryFile("w+") as temp_stream:
@@ -147,6 +148,7 @@ def get_company_info(ticker):
     `pyasx.data.securities.get_security_info()`
 
     :param ticker: The ticker symbol of the company to lookup.
+    :raises pyasx.data.LookupError:
     """
 
     assert(len(ticker) >= 3)
@@ -163,7 +165,7 @@ def get_company_info(ticker):
 
     except requests.exceptions.HTTPError as ex:
 
-        raise pyasx.LookupError(
+        raise pyasx.data.LookupError(
             "Failed to lookup company info for %s; %s" % (
                 ticker, str(ex)
             )
@@ -220,6 +222,7 @@ def get_company_announcements(ticker):
 
     _NOTE_ This currently only pulls the 20 latest _market sensitive_ announcements.
     :param ticker: The ticker symbol of the company to pull annoucements for.
+    :raises pyasx.data.LookupError:
     """
 
     # build the endpoint to pull announcements info
@@ -234,7 +237,7 @@ def get_company_announcements(ticker):
 
     except requests.exceptions.HTTPError as ex:
 
-        raise pyasx.LookupError(
+        raise pyasx.data.LookupError(
             "Failed to lookup announcements for %s; %s" % (
                 ticker, str(ex)
             )
