@@ -282,6 +282,11 @@ The unit tests can be run by executing the test.py file, like so;
 
 ## Changelog
 
+### 2.0.0
+
+- Dates now returned as datetime object rather than a string
+- Better exception handling
+
 ### 1.1.0
 
 - Optimised get_company_info() to use only 1 API call
