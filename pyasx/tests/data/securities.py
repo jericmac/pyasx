@@ -2,6 +2,7 @@
 
 import unittest
 import unittest.mock
+import pyasx.data
 import pyasx.data.securities
 import json
 

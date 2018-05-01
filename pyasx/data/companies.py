@@ -6,8 +6,8 @@ Functions to pull information on ASX listed companies via the ASX.com.au API.
 import csv
 import requests
 import tempfile
-import pyasx
 import pyasx.config
+import pyasx.data
 import pyasx.data.securities
 
 
@@ -95,6 +95,12 @@ def _normalise_share_dividend_info(raw):
         last_dividend['franked_percent'] = raw_dividend['raw_franked_percentage'] if 'raw_franked_percentage' in raw else ''
         last_dividend['comments'] = raw_dividend['comments'] if 'comments' in raw else ''
 
+        # parse dates to datetime objects
+        last_dividend['created_date'] = pyasx.data._parse_datetime(last_dividend['created_date'])
+        last_dividend['ex_date'] = pyasx.data._parse_datetime(last_dividend['ex_date'])
+        last_dividend['payable_date'] = pyasx.data._parse_datetime(last_dividend['payable_date'])
+        last_dividend['books_close_date'] = pyasx.data._parse_datetime(last_dividend['books_close_date'])
+
     return last_dividend
 
 
@@ -122,6 +128,10 @@ def _normalise_company_info(raw):
     company_info['products'] = raw['products'] if 'products' in raw else []
 
     company_info['last_dividend'] = _normalise_share_dividend_info(raw)
+
+    # parse dates to datetime objects
+    company_info['listing_date'] = pyasx.data._parse_datetime(company_info['listing_date'])
+    company_info['delisting_date'] = pyasx.data._parse_datetime(company_info['delisting_date'])
 
     return company_info
 
@@ -193,6 +203,10 @@ def _normalise_annoucements(raw_annoucements):
             annoucement['release_date'] = raw_annoucement['document_release_date'] if 'document_release_date' in raw_annoucement else ''
             annoucement['num_pages'] = raw_annoucement['number_of_pages'] if 'number_of_pages' in raw_annoucement else ''
             annoucement['size'] = raw_annoucement['size'] if 'size' in raw_annoucement else ''
+
+            # parse dates to datetime objects
+            annoucement['document_date'] = pyasx.data._parse_datetime(annoucement['document_date'])
+            annoucement['release_date'] = pyasx.data._parse_datetime(annoucement['release_date'])
 
             annoucements.append(annoucement)
 

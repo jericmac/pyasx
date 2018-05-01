@@ -2,6 +2,7 @@
 
 import unittest
 import unittest.mock
+import pyasx.data
 import pyasx.data.companies
 
 
@@ -167,24 +168,24 @@ class CompaniesTest(unittest.TestCase):
 
             company = pyasx.data.companies.get_company_info('CBA')
 
-            self.assertTrue("ticker"                in company and company["ticker"] == "GEN")
-            self.assertTrue("name"                  in company and company["name"] == "GENERIC INCORPORATED")
-            self.assertTrue("name_short"            in company and company["name_short"] == "GENERIC INC")
-            self.assertTrue("principal_activities"  in company and company["principal_activities"] == "ACTIVITIES")
-            self.assertTrue("gics_industry"         in company and company["gics_industry"] == "Banks")
-            self.assertTrue("gics_sector"           in company and company["gics_sector"] == "Financials")
-            self.assertTrue("listing_date"          in company and company["listing_date"] == "2000-01-01T00:00:00+1000")
-            self.assertTrue("delisting_date"        in company and company["delisting_date"] is None)
-            self.assertTrue("website"               in company and company["website"] == "WEBSITE")
-            self.assertTrue("mailing_address"       in company and company["mailing_address"] == "ADDRESS")
-            self.assertTrue("phone_number"          in company and company["phone_number"] == "4321 4321")
-            self.assertTrue("fax_number"            in company and company["fax_number"] == "1234 1234")
-            self.assertTrue("registry_name"         in company and company["registry_name"] == "REG NAME")
-            self.assertTrue("registry_phone_number" in company and company["registry_phone_number"] == "1800 123 456")
-            self.assertTrue("foreign_exempt"        in company and company["foreign_exempt"] == False)
-            self.assertTrue("products"              in company and len(company["products"]))
-            self.assertTrue("last_dividend"         in company and len(company["last_dividend"]))
-            self.assertTrue("primary_share"         in company and len(company["primary_share"]))
+            self.assertEquals(company["ticker"], "GEN")
+            self.assertEquals(company["name"], "GENERIC INCORPORATED")
+            self.assertEquals(company["name_short"], "GENERIC INC")
+            self.assertEquals(company["principal_activities"], "ACTIVITIES")
+            self.assertEquals(company["gics_industry"], "Banks")
+            self.assertEquals(company["gics_sector"], "Financials")
+            self.assertEquals(pyasx.data._format_date(company["listing_date"]), "2000-01-01T00:00:00+1000")
+            self.assertTrue(company["delisting_date"] is None)
+            self.assertEquals(company["website"], "WEBSITE")
+            self.assertEquals(company["mailing_address"], "ADDRESS")
+            self.assertEquals(company["phone_number"], "4321 4321")
+            self.assertEquals(company["fax_number"], "1234 1234")
+            self.assertEquals(company["registry_name"], "REG NAME")
+            self.assertEquals(company["registry_phone_number"], "1800 123 456")
+            self.assertEquals(company["foreign_exempt"], False)
+            self.assertTrue(len(company["products"]))
+            self.assertTrue(len(company["last_dividend"]))
+            self.assertTrue(len(company["primary_share"]))
 
 
     def testGetCompanyInfoLive(self):
@@ -220,8 +221,17 @@ class CompaniesTest(unittest.TestCase):
 
                 self.assertEqual(announcement["title"], announcement_data["header"])
                 self.assertEqual(announcement["url"], announcement_data["url"])
-                self.assertEqual(announcement["document_date"], announcement_data["document_date"])
-                self.assertEqual(announcement["release_date"], announcement_data["document_release_date"])
+
+                self.assertEqual(
+                    pyasx.data._format_date(announcement["document_date"]),
+                    announcement_data["document_date"]
+                )
+
+                self.assertEqual(
+                    pyasx.data._format_date(announcement["release_date"]),
+                    announcement_data["document_release_date"]
+                )
+
                 self.assertEqual(announcement["num_pages"], announcement_data["number_of_pages"])
                 self.assertEqual(announcement["size"], announcement_data["size"])
 

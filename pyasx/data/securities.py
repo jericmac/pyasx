@@ -9,6 +9,7 @@ import requests.exceptions
 import tempfile
 import pyasx
 import pyasx.config
+import pyasx.data
 
 
 def get_listed_securities():
