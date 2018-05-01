@@ -5,7 +5,9 @@ Functions to pull information on ASX listed securities via the ASX.com.au API.
 
 import csv
 import requests
+import requests.exceptions
 import tempfile
+import pyasx
 import pyasx.config
 
 
@@ -27,8 +29,14 @@ def get_listed_securities():
     all_listed_securities = []
 
     # GET CSV file of ASX codes, as a stream
-    response = requests.get(pyasx.config.get('asx_securities_tsv'), stream=True)
-    response.raise_for_status()  # throw exception for bad status codes
+    try:
+
+        response = requests.get(pyasx.config.get('asx_securities_tsv'), stream=True)
+        response.raise_for_status()  # throw exception for bad status codes
+
+    except requests.exceptions.HTTPError as ex:
+
+        raise pyasx.LookupError("Failed to lookup listed securities; %s" % str(ex))
 
     # parse the CSV result, piping it to a temp file to make the process more memory efficient
     with tempfile.NamedTemporaryFile("w+") as temp_stream:
@@ -140,8 +148,18 @@ def get_security_info(ticker):
     endpoint = endpoint_pattern % ticker.upper()
 
     # GET the share info
-    response = requests.get(endpoint)
-    response.raise_for_status()  # throw exception for bad status codes
+    try:
+
+        response = requests.get(endpoint)
+        response.raise_for_status()  # throw exception for bad status codes
+
+    except requests.exceptions.HTTPError as ex:
+
+        raise pyasx.LookupError(
+            "Failed to lookup security info for %s; %s" % (
+                ticker, str(ex)
+            )
+        )
 
     # parse response & normalise
 

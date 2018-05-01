@@ -6,6 +6,7 @@ Functions to pull information on ASX listed companies via the ASX.com.au API.
 import csv
 import requests
 import tempfile
+import pyasx
 import pyasx.config
 import pyasx.data.securities
 
@@ -28,8 +29,14 @@ def get_listed_companies():
     all_listed_companies = []
 
     # GET CSV file of ASX codes, as a stream
-    response = requests.get(pyasx.config.get('asx_companies_csv'), stream=True)
-    response.raise_for_status()  # throw exception for bad status codes
+    try:
+
+        response = requests.get(pyasx.config.get('asx_companies_csv'), stream=True)
+        response.raise_for_status()  # throw exception for bad status codes
+
+    except requests.exceptions.HTTPError as ex:
+
+        raise pyasx.LookupError("Failed to lookup listed companies; %s" % str(ex))
 
     # parse the CSV result, piping it to a temp file to make the process more memory efficient
     with tempfile.NamedTemporaryFile("w+") as temp_stream:
@@ -139,8 +146,18 @@ def get_company_info(ticker):
     endpoint = endpoint_pattern % ticker.upper()
 
     # GET the company info
-    response = requests.get(endpoint)
-    response.raise_for_status()  # throw exception for bad status codes
+    try:
+
+        response = requests.get(endpoint)
+        response.raise_for_status()  # throw exception for bad status codes
+
+    except requests.exceptions.HTTPError as ex:
+
+        raise pyasx.LookupError(
+            "Failed to lookup company info for %s; %s" % (
+                ticker, str(ex)
+            )
+        )
 
     # parse response & normalise
 
@@ -196,8 +213,18 @@ def get_company_announcements(ticker):
     endpoint = endpoint_pattern % ticker.upper()
 
     # GET the company annoucements
-    response = requests.get(endpoint)
-    response.raise_for_status()  # throw exception for bad status codes
+    try:
+
+        response = requests.get(endpoint)
+        response.raise_for_status()  # throw exception for bad status codes
+
+    except requests.exceptions.HTTPError as ex:
+
+        raise pyasx.LookupError(
+            "Failed to lookup announcements for %s; %s" % (
+                ticker, str(ex)
+            )
+        )
 
     # parse response & normalise
 
