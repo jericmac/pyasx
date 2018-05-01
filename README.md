@@ -45,7 +45,7 @@ anything other than companies, i.e. no EFT/ETPs, options, warrants etc.
 
     >>> import pyasx.data.companies
     >>> results = pyasx.data.companies.get_company_info('CBA')
-    >>> json.dumps(results, indent=4)
+    >>> print(results, indent=4)
     [
         {
             "ticker": "MOQ",
@@ -84,7 +84,7 @@ warrants, indices etc. For that please use
 
     >>> import pyasx.data.companies
     >>> results = pyasx.data.companies.get_company_info('CBA')
-    >>> json.dumps(results, indent=4)
+    >>> print(results, indent=4)
     {
         "ticker": "CBA",
         "name": "COMMONWEALTH BANK OF AUSTRALIA.",
@@ -170,7 +170,7 @@ _NOTE_ This currently only pulls the 20 latest _market sensitive_ annoucements.
 
     >>> import pyasx.data.companies
     >>> results = pyasx.data.companies.get_company_announcements('CBA')
-    >>> json.dumps(results, indent=4)
+    >>> print(results, indent=4)
     [
         {
             "num_pages": 106,
@@ -199,7 +199,7 @@ Pulls a list of all securities listed on the ASX.
 
     >>> import pyasx.data.securities
     >>> results = pyasx.data.securities.get_listed_securities()
-    >>> json.dumps(results, indent=4)
+    >>> print(results, indent=4)
     [
         {
             "isin": "AU000000IJH2",
@@ -239,7 +239,7 @@ etc.
 
     >>> import pyasx.data.securities
     >>> results = pyasx.data.securities.get_security_info('CBAPC')
-    >>> json.dumps(results, indent=4)
+    >>> print(results, indent=4)
     {
         "ticker": "CBAPC",
         "type": "Cap Note 3-bbsw+3.80% Perp Non-cum Red T-12-20",
