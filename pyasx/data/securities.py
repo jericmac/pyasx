@@ -131,6 +131,11 @@ def _normalise_security_info(raw):
 
     security_info['indices'] = _normalise_security_indices_info(raw)
 
+    # parse dates to datetime objects
+    security_info['last_trade_date'] = pyasx.data._parse_datetime(security_info['last_trade_date'])
+    security_info['year_high_date'] = pyasx.data._parse_datetime(security_info['year_high_date'])
+    security_info['year_low_date'] = pyasx.data._parse_datetime(security_info['year_low_date'])
+
     return security_info
 
 
