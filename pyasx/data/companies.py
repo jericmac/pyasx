@@ -7,6 +7,7 @@ import csv
 import requests
 import tempfile
 import pyasx.config
+import pyasx.data
 import pyasx.data.securities
 
 
@@ -23,13 +24,20 @@ def get_listed_companies():
             'gics_industry': 'Banks'
         }
     ]
+    :raises pyasx.data.LookupError:
     """
 
     all_listed_companies = []
 
     # GET CSV file of ASX codes, as a stream
-    response = requests.get(pyasx.config.get('asx_companies_csv'), stream=True)
-    response.raise_for_status()  # throw exception for bad status codes
+    try:
+
+        response = requests.get(pyasx.config.get('asx_companies_csv'), stream=True)
+        response.raise_for_status()  # throw exception for bad status codes
+
+    except requests.exceptions.HTTPError as ex:
+
+        raise pyasx.data.LookupError("Failed to lookup listed companies; %s" % str(ex))
 
     # parse the CSV result, piping it to a temp file to make the process more memory efficient
     with tempfile.NamedTemporaryFile("w+") as temp_stream:
@@ -88,6 +96,12 @@ def _normalise_share_dividend_info(raw):
         last_dividend['franked_percent'] = raw_dividend['raw_franked_percentage'] if 'raw_franked_percentage' in raw else ''
         last_dividend['comments'] = raw_dividend['comments'] if 'comments' in raw else ''
 
+        # parse dates to datetime objects
+        last_dividend['created_date'] = pyasx.data._parse_datetime(last_dividend['created_date'])
+        last_dividend['ex_date'] = pyasx.data._parse_datetime(last_dividend['ex_date'])
+        last_dividend['payable_date'] = pyasx.data._parse_datetime(last_dividend['payable_date'])
+        last_dividend['books_close_date'] = pyasx.data._parse_datetime(last_dividend['books_close_date'])
+
     return last_dividend
 
 
@@ -116,6 +130,10 @@ def _normalise_company_info(raw):
 
     company_info['last_dividend'] = _normalise_share_dividend_info(raw)
 
+    # parse dates to datetime objects
+    company_info['listing_date'] = pyasx.data._parse_datetime(company_info['listing_date'])
+    company_info['delisting_date'] = pyasx.data._parse_datetime(company_info['delisting_date'])
+
     return company_info
 
 
@@ -130,6 +148,7 @@ def get_company_info(ticker):
     `pyasx.data.securities.get_security_info()`
 
     :param ticker: The ticker symbol of the company to lookup.
+    :raises pyasx.data.LookupError:
     """
 
     assert(len(ticker) >= 3)
@@ -139,8 +158,18 @@ def get_company_info(ticker):
     endpoint = endpoint_pattern % ticker.upper()
 
     # GET the company info
-    response = requests.get(endpoint)
-    response.raise_for_status()  # throw exception for bad status codes
+    try:
+
+        response = requests.get(endpoint)
+        response.raise_for_status()  # throw exception for bad status codes
+
+    except requests.exceptions.HTTPError as ex:
+
+        raise pyasx.data.LookupError(
+            "Failed to lookup company info for %s; %s" % (
+                ticker, str(ex)
+            )
+        )
 
     # parse response & normalise
 
@@ -177,6 +206,10 @@ def _normalise_annoucements(raw_annoucements):
             annoucement['num_pages'] = raw_annoucement['number_of_pages'] if 'number_of_pages' in raw_annoucement else ''
             annoucement['size'] = raw_annoucement['size'] if 'size' in raw_annoucement else ''
 
+            # parse dates to datetime objects
+            annoucement['document_date'] = pyasx.data._parse_datetime(annoucement['document_date'])
+            annoucement['release_date'] = pyasx.data._parse_datetime(annoucement['release_date'])
+
             annoucements.append(annoucement)
 
     return annoucements
@@ -189,6 +222,7 @@ def get_company_announcements(ticker):
 
     _NOTE_ This currently only pulls the 20 latest _market sensitive_ announcements.
     :param ticker: The ticker symbol of the company to pull annoucements for.
+    :raises pyasx.data.LookupError:
     """
 
     # build the endpoint to pull announcements info
@@ -196,8 +230,18 @@ def get_company_announcements(ticker):
     endpoint = endpoint_pattern % ticker.upper()
 
     # GET the company annoucements
-    response = requests.get(endpoint)
-    response.raise_for_status()  # throw exception for bad status codes
+    try:
+
+        response = requests.get(endpoint)
+        response.raise_for_status()  # throw exception for bad status codes
+
+    except requests.exceptions.HTTPError as ex:
+
+        raise pyasx.data.LookupError(
+            "Failed to lookup announcements for %s; %s" % (
+                ticker, str(ex)
+            )
+        )
 
     # parse response & normalise
 
