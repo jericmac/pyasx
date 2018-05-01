@@ -12,7 +12,7 @@ except ImportError:
 
 setuptools.setup(
     name='pyasx',
-    version='1.1.0',
+    version='2.0.0', 
     description='Python library to pull data from ASX.com.au',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -27,6 +27,7 @@ setuptools.setup(
     python_requires='>=2.6',
     install_requires=[
         'requests',
-        'pyyaml'
+        'pyyaml',
+        'python-dateutil'
     ]
-) 
+)

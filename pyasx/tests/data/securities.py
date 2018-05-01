@@ -2,6 +2,7 @@
 
 import unittest
 import unittest.mock
+import pyasx.data
 import pyasx.data.securities
 import json
 
@@ -153,36 +154,51 @@ class SecuritiesTest(unittest.TestCase):
 
             security = pyasx.data.securities.get_security_info('CBAPC')
 
-            self.assertTrue("ticker"                  in security and security["ticker"] == "TICKER")
-            self.assertTrue("isin"                    in security and security["isin"] == "AU000ABC123")
-            self.assertTrue("type"                    in security and security["type"] == "DESC FULL")
-            self.assertTrue("open_price"              in security and security["open_price"] == 2)
-            self.assertTrue("last_price"              in security and security["last_price"] == 1)
-            self.assertTrue("bid_price"               in security and security["bid_price"] == 9)
-            self.assertTrue("offer_price"             in security and security["offer_price"] == 10)
-            self.assertTrue("last_trade_date"         in security and security["last_trade_date"] == "2018-03-23T00:00:00+1100")
-            self.assertTrue("day_high_price"          in security and security["day_high_price"] == 3)
-            self.assertTrue("day_low_price"           in security and security["day_low_price"] == 4)
-            self.assertTrue("day_change_price"        in security and security["day_change_price"] == 5)
-            self.assertTrue("day_change_percent"      in security and security["day_change_percent"] == "7%")
-            self.assertTrue("day_volume"              in security and security["day_volume"] == 8)
-            self.assertTrue("prev_day_close_price"    in security and security["prev_day_close_price"] == 11)
-            self.assertTrue("prev_day_change_percent" in security and security["prev_day_change_percent"] == "-12%")
-            self.assertTrue("year_high_price"         in security and security["year_high_price"] == 13)
-            self.assertTrue("year_high_date"          in security and security["year_high_date"] == "2018-03-23T00:00:00+1100")
-            self.assertTrue("year_low_price"          in security and security["year_low_price"] == 14)
-            self.assertTrue("year_low_date"           in security and security["year_low_date"] == "2018-03-22T00:00:00+1100")
-            self.assertTrue("year_open_price"         in security and security["year_open_price"] == 15)
-            self.assertTrue("year_change_price"       in security and security["year_change_price"] == -16)
-            self.assertTrue("year_change_percent"     in security and security["year_change_percent"] == "-17%")
-            self.assertTrue("average_daily_volume"    in security and security["average_daily_volume"] == 20)
-            self.assertTrue("pe"                      in security and security["pe"] == 18)
-            self.assertTrue("eps"                     in security and security["eps"] == 19)
-            self.assertTrue("annual_dividend_yield"   in security and security["annual_dividend_yield"] == 21)
-            self.assertTrue("securities_outstanding"  in security and security["securities_outstanding"] == 23)
-            self.assertTrue("market_cap"              in security and security["market_cap"] == 22)
-            self.assertTrue("is_suspended"            in security and security["is_suspended"] == False)
-            self.assertTrue("indices"                 in security and len(security["indices"]))
+            self.assertEquals(security["ticker"], "TICKER")
+            self.assertEquals(security["isin"], "AU000ABC123")
+            self.assertEquals(security["type"], "DESC FULL")
+            self.assertEquals(security["open_price"], 2)
+            self.assertEquals(security["last_price"], 1)
+            self.assertEquals(security["bid_price"], 9)
+            self.assertEquals(security["offer_price"], 10)
+
+            self.assertEquals(pyasx.data._format_date(
+                security["last_trade_date"]),
+                "2018-03-23T00:00:00+1100"
+            )
+
+            self.assertEquals(security["day_high_price"], 3)
+            self.assertEquals(security["day_low_price"], 4)
+            self.assertEquals(security["day_change_price"], 5)
+            self.assertEquals(security["day_change_percent"], "7%")
+            self.assertEquals(security["day_volume"], 8)
+            self.assertEquals(security["prev_day_close_price"], 11)
+            self.assertEquals(security["prev_day_change_percent"], "-12%")
+            self.assertEquals(security["year_high_price"], 13)
+
+            self.assertEquals(
+                pyasx.data._format_date(security["year_high_date"]),
+                "2018-03-23T00:00:00+1100"
+            )
+
+            self.assertEquals(security["year_low_price"], 14)
+
+            self.assertEquals(
+                pyasx.data._format_date(security["year_low_date"]),
+                "2018-03-22T00:00:00+1100"
+            )
+
+            self.assertEquals(security["year_open_price"], 15)
+            self.assertEquals(security["year_change_price"], -16)
+            self.assertEquals(security["year_change_percent"], "-17%")
+            self.assertEquals(security["average_daily_volume"], 20)
+            self.assertEquals(security["pe"], 18)
+            self.assertEquals(security["eps"], 19)
+            self.assertEquals(security["annual_dividend_yield"], 21)
+            self.assertEquals(security["securities_outstanding"], 23)
+            self.assertEquals(security["market_cap"], 22)
+            self.assertEquals(security["is_suspended"], False)
+            self.assertTrue(len(security["indices"]))
 
 
     def testGetSecurityInfoLive(self):

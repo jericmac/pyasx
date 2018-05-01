@@ -5,8 +5,11 @@ Functions to pull information on ASX listed securities via the ASX.com.au API.
 
 import csv
 import requests
+import requests.exceptions
 import tempfile
+import pyasx
 import pyasx.config
+import pyasx.data
 
 
 def get_listed_securities():
@@ -22,13 +25,20 @@ def get_listed_securities():
             'isin': 'AU000000IJH2'
         }
     ]
+    :raises pyasx.data.LookupError:
     """
 
     all_listed_securities = []
 
     # GET CSV file of ASX codes, as a stream
-    response = requests.get(pyasx.config.get('asx_securities_tsv'), stream=True)
-    response.raise_for_status()  # throw exception for bad status codes
+    try:
+
+        response = requests.get(pyasx.config.get('asx_securities_tsv'), stream=True)
+        response.raise_for_status()  # throw exception for bad status codes
+
+    except requests.exceptions.HTTPError as ex:
+
+        raise pyasx.data.LookupError("Failed to lookup listed securities; %s" % str(ex))
 
     # parse the CSV result, piping it to a temp file to make the process more memory efficient
     with tempfile.NamedTemporaryFile("w+") as temp_stream:
@@ -122,6 +132,11 @@ def _normalise_security_info(raw):
 
     security_info['indices'] = _normalise_security_indices_info(raw)
 
+    # parse dates to datetime objects
+    security_info['last_trade_date'] = pyasx.data._parse_datetime(security_info['last_trade_date'])
+    security_info['year_high_date'] = pyasx.data._parse_datetime(security_info['year_high_date'])
+    security_info['year_low_date'] = pyasx.data._parse_datetime(security_info['year_low_date'])
+
     return security_info
 
 
@@ -131,6 +146,7 @@ def get_security_info(ticker):
     can be for any type of listed security, such as company stock, bonds, ETFs
     etc.
     :param ticker: The ticker symbol of the security to lookup.
+    :raises pyasx.data.LookupError:
     """
 
     assert(len(ticker) >= 3)
@@ -140,8 +156,18 @@ def get_security_info(ticker):
     endpoint = endpoint_pattern % ticker.upper()
 
     # GET the share info
-    response = requests.get(endpoint)
-    response.raise_for_status()  # throw exception for bad status codes
+    try:
+
+        response = requests.get(endpoint)
+        response.raise_for_status()  # throw exception for bad status codes
+
+    except requests.exceptions.HTTPError as ex:
+
+        raise pyasx.data.LookupError(
+            "Failed to lookup security info for %s; %s" % (
+                ticker, str(ex)
+            )
+        )
 
     # parse response & normalise
 

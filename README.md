@@ -98,7 +98,7 @@ warrants, indices etc. For that please use
         "fax_number": "(02) 9118 7192",
         "registry_name": "LINK MARKET SERVICES LTD",
         "registry_phone_number": "1800 022 440",
-        "listing_date": "1991-09-12T00:00:00+1000",
+        "listing_date": datetime.datetime(1997, 5, 1, 0, 0, tzinfo=tzoffset(None, 36000)),
         "delisting_date": null,
         "foreign_exempt": false,
         "products": [
@@ -115,7 +115,7 @@ warrants, indices etc. For that please use
             "last_price": 72.81,
             "offer_price": 72.92,
             "bid_price": 72.8,
-            "last_trade_date": "2018-03-23T00:00:00+1100",
+            "last_trade_date": datetime.datetime(2018, 5, 1, 0, 0, tzinfo=tzoffset(None, 36000)),
             "average_daily_volume": 2610218,
             "day_high_price": 74.16
             "day_low_price": 72.81,
@@ -126,9 +126,9 @@ warrants, indices etc. For that please use
             "prev_day_change_percent": "-1.201%",
             "year_open_price": 75.27,
             "year_high_price": 87.74,
-            "year_high_date": "2017-04-28T00:00:00+1000",
+            "year_high_date": datetime.datetime(2017, 5, 1, 0, 0, tzinfo=tzoffset(None, 36000)),
             "year_low_price": 72.81,
-            "year_low_date": "2018-03-23T00:00:00+1100",
+            "year_low_date": datetime.datetime(2018, 5, 1, 0, 0, tzinfo=tzoffset(None, 36000)),
             "year_change_price": -2.46,
             "year_change_percent": "-3.268%",
             "annual_dividend_yield": 5.91,
@@ -176,17 +176,17 @@ _NOTE_ This currently only pulls the 20 latest _market sensitive_ annoucements.
             "num_pages": 106,
             "title": "CommBank PERLS X Capital Notes - Replacement Prospectus",
             "url": "http://www.asx.com.au/asxpdf/20180315/pdf/43sg1vw9rn1yl1.pdf",
-            "release_date": "2018-03-15T08:51:00+1100",
+            "release_date": datetime.datetime(2018, 5, 1, 0, 0, tzinfo=tzoffset(None, 36000)),
             "size": "4.7MB",
-            "document_date": "2018-03-15T08:46:07+1100"
+            "document_date": datetime.datetime(2018, 5, 1, 0, 0, tzinfo=tzoffset(None, 36000))
         },
         {
             "num_pages": 185,
             "title": "2018 Half Year Results Profit Announcement",
             "url": "http://www.asx.com.au/asxpdf/20180207/pdf/43rd1t86s7g1ll.pdf",
-            "release_date": "2018-02-07T07:30:03+1100",
+            "release_date": datetime.datetime(2018, 3, 1, 0, 0, tzinfo=tzoffset(None, 36000)),
             "size": "19.9MB",
-            "document_date": "2018-02-07T07:01:07+1100"
+            "document_date": datetime.datetime(2018, 3, 1, 0, 0, tzinfo=tzoffset(None, 36000))
         },
         ...
     ]
@@ -248,7 +248,7 @@ etc.
         "last_price": 100.61,
         "offer_price": 100.66,
         "bid_price": 100.6,
-        "last_trade_date": "2018-03-23T00:00:00+1100",
+        "last_trade_date": datetime.datetime(2018, 5, 1, 0, 0, tzinfo=tzoffset(None, 36000)),
         "average_daily_volume": 12781,
         "day_low_price": 100.4,
         "day_high_price": 100.66,
@@ -259,9 +259,9 @@ etc.
         "prev_day_change_percent": "-0.366%",
         "year_open_price": 104.18,
         "year_high_price": 100.66,
-        "year_high_date": "2018-03-23T00:00:00+1100",
+        "year_high_date": datetime.datetime(2017, 5, 1, 0, 0, tzinfo=tzoffset(None, 36000)),
         "year_low_price": 0,
-        "year_low_date": "2018-03-22T00:00:00+1100",
+        "year_low_date": datetime.datetime(2018, 5, 1, 0, 0, tzinfo=tzoffset(None, 36000)),
         "year_change_price": -3.57,
         "year_change_percent": "-3.427%",
         "annual_dividend_yield": 3.89,
@@ -282,13 +282,18 @@ The unit tests can be run by executing the test.py file, like so;
 
 ## Changelog
 
+### 2.0.0
+
+- Dates now returned as datetime object rather than a string
+- Better exception handling
+
 ### 1.1.0
 
 - Optimised get_company_info() to use only 1 API call
 - Changed gics & sector fields to gics_industry and gics_sector
 - Docs updates
 
-### 1.0.2 - Bug fixes
+### 1.0.2
 
 - Bug fix - config file missing in dist
 
@@ -296,4 +301,6 @@ The unit tests can be run by executing the test.py file, like so;
 
 - Bug fix - pypandoc dependency failure on pypi
 
-### 1.0 - Initial version
+### 1.0
+
+- Initial version
