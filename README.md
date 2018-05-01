@@ -288,7 +288,7 @@ The unit tests can be run by executing the test.py file, like so;
 - Changed gics & sector fields to gics_industry and gics_sector
 - Docs updates
 
-### 1.0.2 - Bug fixes
+### 1.0.2
 
 - Bug fix - config file missing in dist
 
@@ -296,4 +296,6 @@ The unit tests can be run by executing the test.py file, like so;
 
 - Bug fix - pypandoc dependency failure on pypi
 
-### 1.0 - Initial version
+### 1.0
+
+- Initial version
