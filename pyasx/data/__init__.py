@@ -3,10 +3,19 @@
 import dateutil.parser
 
 
+class UnknownTickerException(Exception):
+    """
+    Exception thrown when a lookup failed because the ticker doesn't match a
+    company/security.
+    """
+
+    pass
+
+
 class LookupError(Exception):
     """
     Exception thrown when there is an error while doing a looking up on
-    asx.com.au
+    ASX.com.au
     """
 
     pass

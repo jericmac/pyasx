@@ -282,6 +282,10 @@ The unit tests can be run by executing the test.py file, like so;
 
 ## Changelog
 
+### 2.1.0
+
+- Throw UnknownTickerException when API 404s
+
 ### 2.0.0
 
 - Dates now returned as datetime object rather than a string
