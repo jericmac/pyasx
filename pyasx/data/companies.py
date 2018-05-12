@@ -158,18 +158,31 @@ def get_company_info(ticker):
     endpoint = endpoint_pattern % ticker.upper()
 
     # GET the company info
-    try:
+    response = requests.get(endpoint)
+    if response.status_code != 200:  # 200 OK
 
-        response = requests.get(endpoint)
-        response.raise_for_status()  # throw exception for bad status codes
+        if response.status_code == 404:
+            # 404 not found, therefore unknown ticker
 
-    except requests.exceptions.HTTPError as ex:
-
-        raise pyasx.data.LookupError(
-            "Failed to lookup company info for %s; %s" % (
-                ticker, str(ex)
+            raise pyasx.data.UnknownTickerException(
+                "Unknown company ticker %s; %s" % ticker
             )
-        )
+
+        else:
+            # otherwise its an error, raise as status so we get a decent description
+            # to return in the exception
+
+            try:
+
+                response.raise_for_status()
+
+            except HTTPError as ex:
+
+                raise pyasx.data.LookupError(
+                    "Failed to lookup company info for %s; HTTP status %d" % (
+                        ticker, str(ex)
+                    )
+                )
 
     # parse response & normalise
 
