@@ -163,7 +163,7 @@ def get_security_info(ticker):
             # 404 not found, therefore unknown ticker
 
             raise pyasx.data.UnknownTickerException(
-                "Unknown security ticker %s; %s" % ticker
+                "Unknown security ticker %s" % ticker
             )
 
         else:
@@ -177,7 +177,7 @@ def get_security_info(ticker):
             except HTTPError as ex:
 
                 raise pyasx.data.LookupError(
-                    "Failed to lookup company info for %s; HTTP status %d" % (
+                    "Failed to lookup company info for %s; HTTP status %s" % (
                         ticker, str(ex)
                     )
                 )
