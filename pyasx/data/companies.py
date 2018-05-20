@@ -6,6 +6,7 @@ Functions to pull information on ASX listed companies via the ASX.com.au API.
 import csv
 import requests
 import tempfile
+import pyasx
 import pyasx.config
 import pyasx.data
 import pyasx.data.securities
@@ -32,7 +33,7 @@ def get_listed_companies():
     # GET CSV file of ASX codes, as a stream
     try:
 
-        response = requests.get(pyasx.config.get('asx_companies_csv'), stream=True)
+        response = pyasx.requests_session().get(pyasx.config.get('asx_companies_csv'), stream=True)
         response.raise_for_status()  # throw exception for bad status codes
 
     except requests.exceptions.HTTPError as ex:
@@ -48,7 +49,7 @@ def get_listed_companies():
 
         # rewind the temp stream and convert it to an iterator for csv.reader below
         temp_stream.seek(0)
-        temp_iter = iter(temp_stream.readline, '');
+        temp_iter = iter(temp_stream.readline, '')
 
         # skip the first 3 rows of the CSV as they are header rows
         for i in range(0, 3):
@@ -158,7 +159,7 @@ def get_company_info(ticker):
     endpoint = endpoint_pattern % ticker.upper()
 
     # GET the company info
-    response = requests.get(endpoint)
+    response = pyasx.requests_session().get(endpoint)
     if response.status_code != 200:  # 200 OK
 
         if response.status_code == 404:
@@ -245,7 +246,7 @@ def get_company_announcements(ticker):
     # GET the company annoucements
     try:
 
-        response = requests.get(endpoint)
+        response = pyasx.requests_session().get(endpoint)
         response.raise_for_status()  # throw exception for bad status codes
 
     except requests.exceptions.HTTPError as ex:

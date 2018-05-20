@@ -123,7 +123,7 @@ class CompaniesTest(unittest.TestCase):
         Test pulling mock data + verify
         """
 
-        with unittest.mock.patch("requests.get") as mock:
+        with unittest.mock.patch("pyasx.requests_session.get") as mock:
 
             # set up mock iterator for response.iter_content()
             instance = mock.return_value
@@ -133,7 +133,7 @@ class CompaniesTest(unittest.TestCase):
             companies = pyasx.data.companies.get_listed_companies()
 
             # verify data is all correct
-            i = 0;
+            i = 0
             for company in companies:
                 company_data = self.get_listed_companies_data[i]
 

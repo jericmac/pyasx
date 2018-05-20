@@ -33,7 +33,7 @@ def get_listed_securities():
     # GET CSV file of ASX codes, as a stream
     try:
 
-        response = requests.get(pyasx.config.get('asx_securities_tsv'), stream=True)
+        response = pyasx.requests_session().get(pyasx.config.get('asx_securities_tsv'), stream=True)
         response.raise_for_status()  # throw exception for bad status codes
 
     except requests.exceptions.HTTPError as ex:
@@ -156,7 +156,7 @@ def get_security_info(ticker):
     endpoint = endpoint_pattern % ticker.upper()
 
     # GET the share info
-    response = requests.get(endpoint)
+    response = pyasx.requests_session().get(endpoint)
     if response.status_code != 200:  # 200 OK
 
         if response.status_code == 404:
