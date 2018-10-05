@@ -1,7 +1,7 @@
 
 # PyASX
 
-[![Build Status](https://travis-ci.org/zacscott/pyasx.svg?branch=master)](https://travis-ci.org/zacscott/pyasx)  ![Python Version](https://img.shields.io/badge/python-2.6%2C%202.7%2C%203.5%2C%203.6-blue.svg)
+[![Build Status](https://travis-ci.org/zacscott/pyasx.svg?branch=master)](https://travis-ci.org/zacscott/pyasx)  ![Python Version](https://img.shields.io/badge/python-2.6%2B%2C%203.5%2B-blue.svg)
 
 Python library to pull ASX stock information via the undocumented API used on
 [www.ASX.com.au](https://www.asx.com.au).
@@ -282,7 +282,7 @@ The unit tests can be run by executing the test.py file, like so;
 
 ## Changelog
 
-### 2.1.4
+### 2.1.5
 
 - Documentation update
 
