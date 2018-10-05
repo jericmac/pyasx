@@ -3,6 +3,8 @@
 
 [![Build Status](https://travis-ci.org/zacscott/pyasx.svg?branch=master)](https://travis-ci.org/zacscott/pyasx)
 
+![Python Version](https://img.shields.io/badge/python-2.6%2C%2032.7%2C%203.5%2C%203.6-blue.svg)
+
 Python library to pull ASX stock information via the undocumented API used on
 [www.ASX.com.au](https://www.asx.com.au).
 
@@ -44,7 +46,7 @@ anything other than companies, i.e. no EFT/ETPs, options, warrants etc.
 **Example**
 
     >>> import pyasx.data.companies
-    >>> results = pyasx.data.companies.get_company_info('CBA')
+    >>> results = pyasx.data.companies.get_listed_companies()
     >>> print(results, indent=4)
     [
         {
