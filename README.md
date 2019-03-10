@@ -282,6 +282,10 @@ The unit tests can be run by executing the test.py file, like so;
 
 ## Changelog
 
+### 2.1.7
+
+- Requirements security patches
+
 ### 2.1.5
 
 - Documentation update
