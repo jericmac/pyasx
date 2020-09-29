@@ -5,13 +5,13 @@ import unittest.mock
 import pyasx.data
 import pyasx.data.securities
 import json
+import pandas
 
 
 class SecuritiesTest(unittest.TestCase):
     """
     Unit tests for pyasx.data.securities module
     """
-
 
     def __init__(self, *args, **kwargs):
         super(SecuritiesTest, self).__init__(*args, **kwargs)
@@ -20,34 +20,21 @@ class SecuritiesTest(unittest.TestCase):
         self.get_listed_securities_mock = ""
         self.get_security_info_mock = []
 
-
     def setUp(self):
 
         self.setUpGetListedSecurities()
         self.setUpGetSecurityInfo()
 
+    def setUpGetListedSecurities(self):
 
-    def setUpGetListedSecurities(self):  # TODO
-
-        self.get_listed_securities_data = [
-            # just the first ones from the file to test with
-            [ "IJH", "ISHARES MID-CAP ETF", "CHESS DEPOSITARY INTERESTS 1:1 ISHS&P400", "AU000000IJH2" ],
-            [ "MOQ", "MOQ LIMITED", "ORDINARY FULLY PAID", "AU000000MOQ5" ],
-            [ "MOQAI", "MOQ LIMITED", "OPTION EXPIRING VARIOUS DATES EX VARIOUS PRICES", "AU0000MOQAI6" ],
-        ]
-
-        # build the mock CSV data based on self.get_listed_companies_data
-
-        for i in range(0, 5):  # header
-            self.get_listed_securities_mock += "HEADER\tROW\n"
-
-        for row in self.get_listed_securities_data:
-
-            csv_row = "\t".join(row)
-            csv_row += "\n"
-
-            self.get_listed_securities_mock += csv_row
-
+        # just the first ones from the file to test with
+        self.get_listed_securities_data = pandas.DataFrame([
+            ["IJH", "ISHARES MID-CAP ETF",
+                "CHESS DEPOSITARY INTERESTS 1:1 ISHS&P400", "AU000000IJH2"],
+            ["MOQ", "MOQ LIMITED", "ORDINARY FULLY PAID", "AU000000MOQ5"],
+            ["MOQAI", "MOQ LIMITED",
+                "OPTION EXPIRING VARIOUS DATES EX VARIOUS PRICES", "AU0000MOQAI6"],
+        ])
 
     def setUpGetSecurityInfo(self):
 
@@ -86,18 +73,17 @@ class SecuritiesTest(unittest.TestCase):
             "deprecated_number_of_shares": 25,
             "suspended": False,
             "status": [
-              "CD"
+                "CD"
             ],
             "indices": [
                 {
-                  "index_code": "XJO",
-                  "name_full": "S&P/ASX 200",
-                  "name_short": "S&P/ASX200",
-                  "name_abrev": "S&P/ASX 200"
+                    "index_code": "XJO",
+                    "name_full": "S&P/ASX 200",
+                    "name_short": "S&P/ASX200",
+                    "name_abrev": "S&P/ASX 200"
                 }
             ]
         }
-
 
     def testGetListedSecuritiesMocked(self):
         """
@@ -105,22 +91,17 @@ class SecuritiesTest(unittest.TestCase):
         Test pulling mock data + verify
         """
 
-        with unittest.mock.patch("requests.get") as mock:
-
-            # set up mock iterator for response.iter_content()
-
-            bytes_mock = bytes(self.get_listed_securities_mock, "utf-8")
-
-            instance = mock.return_value
-            instance.iter_content.return_value = iter([bytes_mock])
+        with unittest.mock.patch("pandas.read_excel") as mock:
+            # set up mock iterator for pandas.read_csv
+            mock.return_value = self.get_listed_securities_data
 
             # this is the test
             securities = pyasx.data.securities.get_listed_securities()
 
             # verify data is all correct
-            i = 0;
+            i = 0
             for security in securities:
-                security_data = self.get_listed_securities_data[i]
+                security_data = self.get_listed_securities_data.iloc[i, :]
 
                 self.assertEqual(security["ticker"], security_data[0])
                 self.assertEqual(security["name"], security_data[1])
@@ -129,7 +110,6 @@ class SecuritiesTest(unittest.TestCase):
 
                 i += 1
 
-
     def testGetListedSecuritiesLive(self):
         """
         Unit test for pyasx.data.securities.get_listed_securities()
@@ -137,8 +117,8 @@ class SecuritiesTest(unittest.TestCase):
         """
 
         securities = pyasx.data.securities.get_listed_securities()
-        self.assertTrue(len(securities) > 1000) # there are at least a few thousand listed securities
-
+        # there are at least a few thousand listed securities
+        self.assertTrue(len(securities) > 1000)
 
     def testGetSecurityInfoMocked(self):
         """
@@ -199,7 +179,6 @@ class SecuritiesTest(unittest.TestCase):
             self.assertEquals(security["market_cap"], 22)
             self.assertEquals(security["is_suspended"], False)
             self.assertTrue(len(security["indices"]))
-
 
     def testGetSecurityInfoLive(self):
         """
