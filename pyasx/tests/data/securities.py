@@ -186,6 +186,6 @@ class SecuritiesTest(unittest.TestCase):
         Simple check of pulling live data
         """
 
-        security = pyasx.data.securities.get_security_info('CBAPC')
+        security = pyasx.data.securities.get_security_info('CBAPD')
         self.assertTrue("ticker" in security)
         self.assertTrue(len(security))
