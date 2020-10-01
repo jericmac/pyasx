@@ -4,12 +4,15 @@ Functions to pull information on ASX listed securities via the ASX.com.au API.
 
 
 import csv
+import io
 import requests
 import requests.exceptions
 import tempfile
+import pandas
 import pyasx
 import pyasx.config
 import pyasx.data
+import urllib
 
 
 def get_listed_securities():
@@ -30,42 +33,24 @@ def get_listed_securities():
 
     all_listed_securities = []
 
-    # GET CSV file of ASX codes, as a stream
+    # Create Pandas dataframe directly from URL of .xls file
     try:
+        df = pandas.read_excel(pyasx.config.get(
+            'asx_securities_tsv'), skiprows=[0, 1, 2, 3])
 
-        response = requests.get(pyasx.config.get('asx_securities_tsv'), stream=True)
-        response.raise_for_status()  # throw exception for bad status codes
+    except urllib.error.HTTPError as ex:
+        raise pyasx.data.LookupError(
+            "Failed to lookup listed securities; %s" % str(ex))
 
-    except requests.exceptions.HTTPError as ex:
+    for index, row in df.iterrows():
+        ticker, name, type, isin = row
 
-        raise pyasx.data.LookupError("Failed to lookup listed securities; %s" % str(ex))
-
-    # parse the CSV result, piping it to a temp file to make the process more memory efficient
-    with tempfile.NamedTemporaryFile("w+") as temp_stream:
-
-        # pipe the CSV data to a temp file
-        for block in response.iter_content(1024, True):
-            temp_stream.write(block.decode('unicode_escape'))
-
-        # rewind the temp stream and convert it to an iterator for csv.reader below
-        temp_stream.seek(0)
-        temp_iter = iter(temp_stream.readline, '');
-
-        # skip the first 5 rows of the CSV as they are header rows
-        for i in range(0, 5):
-            next(temp_iter)
-
-        # read the stream back in & parse out the company details from each row
-        for row in csv.reader(temp_iter, dialect="excel-tab"):
-
-            ticker, name, type, isin = row
-
-            all_listed_securities.append({
-                'ticker': ticker,
-                'name': name,
-                'type': type,
-                'isin': isin
-            })
+        all_listed_securities.append({
+            'ticker': ticker,
+            'name': name,
+            'type': type,
+            'isin': isin
+        })
 
     return all_listed_securities
 
@@ -133,9 +118,12 @@ def _normalise_security_info(raw):
     security_info['indices'] = _normalise_security_indices_info(raw)
 
     # parse dates to datetime objects
-    security_info['last_trade_date'] = pyasx.data._parse_datetime(security_info['last_trade_date'])
-    security_info['year_high_date'] = pyasx.data._parse_datetime(security_info['year_high_date'])
-    security_info['year_low_date'] = pyasx.data._parse_datetime(security_info['year_low_date'])
+    security_info['last_trade_date'] = pyasx.data._parse_datetime(
+        security_info['last_trade_date'])
+    security_info['year_high_date'] = pyasx.data._parse_datetime(
+        security_info['year_high_date'])
+    security_info['year_low_date'] = pyasx.data._parse_datetime(
+        security_info['year_low_date'])
 
     return security_info
 
