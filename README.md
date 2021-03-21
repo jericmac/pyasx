@@ -10,7 +10,7 @@ Main features are;
 
  - Pulling the full list of companies & securities listed on the ASX
  - Pulling detailed company information
- - Pulling company regulatory annoucements
+ - Pulling company regulatory announcements
 
 While PyASX provides pricing information, using
 [AlphaVantage](https://github.com/RomelTorres/alpha_vantage) is a better
