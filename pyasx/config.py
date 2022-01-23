@@ -27,7 +27,7 @@ def load():
     with open(yaml_path, "r") as yaml_stream:
 
         # try:
-        _config = yaml.load(yaml_stream)
+        _config = yaml.load(yaml_stream, yaml.FullLoader)
         # except yaml.YAMLError as ex:
         #     print(ex)
 
